@@ -18,7 +18,8 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 SRC="$ROOT/sources/Shipwright"
 "$ROOT/scripts/verify-sources.py" >/dev/null
-DEPLOYMENT_TARGET="${DEPLOYMENT_TARGET:-14.0}"   # LUS CI value; real floor TBD (open question Q10)
+# Xcode 27 accepts iOS deployment targets from 15.0 (14.0 fails CMake's try-compile).
+DEPLOYMENT_TARGET="${DEPLOYMENT_TARGET:-15.0}"
 BUNDLE_ID="${BUNDLE_ID:-com.chrissotraidis.harkinianpad}"
 HARKINIANPAD_VERSION="${HARKINIANPAD_VERSION:-0.1.0}"
 HARKINIANPAD_BUILD_NUMBER="${HARKINIANPAD_BUILD_NUMBER:-6}"
