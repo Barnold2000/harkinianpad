@@ -1,14 +1,18 @@
 # Install the HarkinianPad developer preview
 
+> [!IMPORTANT]
+> **Downloads retired.** Prebuilt builds are no longer published, and release
+> links on this page no longer work. A build-it-yourself version is in progress.
+
 The HarkinianPad download is an unsigned developer-preview IPA. It is not an
 App Store or TestFlight build. AltStore Classic re-signs it with your Apple ID
 for your own iPhone or iPad.
 
 The IPA does not include Ocarina of Time, a ROM, or generated game data.
 
-[Download HarkinianPad 0.1.0 build 6 developer preview](https://github.com/chrissotraidis/harkinianpad/releases/download/v0.1.0-preview.6/HarkinianPad-0.1.0-preview.6-unsigned.ipa)
+Download HarkinianPad 0.1.0 build 6 developer preview (retired)
 
-[Download the SHA-256 checksum file](https://github.com/chrissotraidis/harkinianpad/releases/download/v0.1.0-preview.6/HarkinianPad-0.1.0-preview.6-unsigned.ipa.sha256).
+Download the SHA-256 checksum file (retired).
 The expected IPA hash is
 `e24b948b8e40d76132c89016c8c9546a5b7486ad790365e7cb8cfc61777b3c17`.
 

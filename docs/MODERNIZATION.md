@@ -18,7 +18,7 @@ uncommitted README and build-history document.
 ## Starting point
 
 Public main and Preview 5: `c5963066e888d45e71c16cb63bba1f9cc9329639`.
-[Preview 5](https://github.com/chrissotraidis/harkinianpad/releases/tag/v0.1.0-preview.5)
+Preview 5 (retired)
 is iOS/iPadOS 0.1.0 build 5, unsigned for user-side signing. Its anonymously
 retrieved IPA SHA-256 is
 `f505c0837a984f881d158ef3524f53d476a778e6351afabff49b611bbf47cef2`.
