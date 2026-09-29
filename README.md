@@ -8,7 +8,7 @@
 
 <p align="center">
   <a href="https://github.com/chrissotraidis/harkinianpad/actions/workflows/ios-build.yml"><img alt="HarkinianPad iOS build" src="https://github.com/chrissotraidis/harkinianpad/actions/workflows/ios-build.yml/badge.svg"></a>
-  <img alt="iOS 14+" src="https://img.shields.io/badge/iOS%20%2F%20iPadOS-14%2B-0A84FF?logo=apple">
+  <img alt="iOS 15+" src="https://img.shields.io/badge/iOS%20%2F%20iPadOS-15%2B-0A84FF?logo=apple">
   <img alt="Metal renderer" src="https://img.shields.io/badge/renderer-Metal-5E5CE6">
   <img alt="Physical iPad tested" src="https://img.shields.io/badge/physical%20iPad-tested-30D158">
   <img alt="ROM not included" src="https://img.shields.io/badge/game%20data-not%20included-FF453A">
@@ -36,6 +36,7 @@ relicense Shipwright, third-party projects, or game material.
 
 | Option | Status | What to do |
 |---|---|---|
+| Make your own IPA with PadForge | **Available now** | On a Mac, [PadForge](https://github.com/chrissotraidis/padforge/releases/latest) builds HarkinianPad from this repository's latest release and saves an unsigned IPA; install it with AltStore Classic, SideStore or Sideloadly. See [Get started](#get-started). |
 | AltStore PAL / computer-free install | **Not available** | The current IPA is not an AltStore PAL release. Installing AltStore Classic through PAL does not remove Classic's requirement for AltServer on a Mac or Windows PC. |
 | Local iPad build | **Available now** | Build and sign with your Apple development team using the instructions below. |
 | Simulator | **Available now** | Best for development and UI testing; it is not a substitute for physical-device testing. |
@@ -55,6 +56,21 @@ and physical-iPad foreground proof; hands-on Bluetooth, wired, natural-sleep,
 mapping, rumble, motion, and two-controller acceptance remains open.
 
 ## Get started
+
+**The easy way:** on a Mac with Xcode, install the build libraries once:
+
+```sh
+brew install cmake ninja pkgconf sdl2 glew nlohmann-json libpng libzip \
+  tinyxml2 libogg libvorbis opus opusfile sdl2_net
+```
+
+then download [PadForge](https://github.com/chrissotraidis/padforge/releases/latest), unzip it,
+double-click `PadForge.command` and choose HarkinianPad. PadForge builds the app from this
+repository's latest release (about 15 minutes) and saves an unsigned IPA in the folder you choose.
+Install it with your sideloading tool, then choose your ROM in the app (see [First launch](#first-launch)).
+Releases publish no app: the app is compiled from the Ship of Harkinian decompilation, so you make your own.
+
+**By hand:**
 
 You need:
 
@@ -99,7 +115,7 @@ choose your team under **Signing & Capabilities**.
 See [`docs/BUILDING.md`](docs/BUILDING.md) for the complete Simulator,
 signing, installation, controller, and package-audit workflow.
 [`docs/INSTALL_IPA.md`](docs/INSTALL_IPA.md) is the short AltStore Classic
-installation guide for the downloadable developer preview.
+installation guide for the IPA you made.
 
 Before publishing or sharing a build, follow the
 [`release checklist`](docs/RELEASE_CHECKLIST.md).

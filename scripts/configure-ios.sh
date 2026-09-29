@@ -21,8 +21,9 @@ SRC="$ROOT/sources/Shipwright"
 # Xcode 27 accepts iOS deployment targets from 15.0 (14.0 fails CMake's try-compile).
 DEPLOYMENT_TARGET="${DEPLOYMENT_TARGET:-15.0}"
 BUNDLE_ID="${BUNDLE_ID:-com.chrissotraidis.harkinianpad}"
-HARKINIANPAD_VERSION="${HARKINIANPAD_VERSION:-0.1.0}"
-HARKINIANPAD_BUILD_NUMBER="${HARKINIANPAD_BUILD_NUMBER:-6}"
+# One version for the app, its release and PadForge: version.json.
+HARKINIANPAD_VERSION="${HARKINIANPAD_VERSION:-$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["version"])' "$ROOT/version.json")}"
+HARKINIANPAD_BUILD_NUMBER="${HARKINIANPAD_BUILD_NUMBER:-$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["build"])' "$ROOT/version.json")}"
 IOS_PLATFORM="${IOS_PLATFORM:-OS64COMBINED}"
 
 if [[ ! "$HARKINIANPAD_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
