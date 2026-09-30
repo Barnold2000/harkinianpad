@@ -261,10 +261,7 @@ identifier `com.chrissotraidis.harkinianpad`. The package is named
 certificate or provisioning profile; a sideload tool such as AltStore Classic
 must re-sign it for the installer's device.
 
-Published Preview 6 contains the audited iOS/iPadOS 14+ IPA from commit
-`96eb768`, with checksum and build provenance attached to the release.
-
-Previous builds have been retired; a new version is in progress.
+Releases publish no IPA; this packaging step is for your own local builds.
 
 The audit rejects Simulator products, stale signing material, original ROMs,
 ROM-derived `oot*.o2r`/`.otr` files, and prohibited game data. For a local
@@ -278,7 +275,7 @@ privacy manifest; that remains an official-store distribution gate.
 <details>
 <summary><strong>Where is the IPA?</strong></summary>
 
-Previous builds have been retired; a new version is in progress.
+There is no public IPA: HarkinianPad is compiled from the Ship of Harkinian decompilation, so PadForge builds your own on an Apple Silicon Mac. See [Get started](#get-started).
 </details>
 
 <details>
@@ -314,8 +311,8 @@ support still require model-specific verification.
 <details>
 <summary><strong>Is this an App Store or TestFlight release?</strong></summary>
 
-No. The downloadable build is an unsigned developer-preview IPA for personal
-re-signing. App Store, TestFlight, AltStore PAL, and SideStore distribution are
+No. PadForge makes an unsigned IPA on your Mac for personal re-signing.
+App Store, TestFlight, AltStore PAL, and SideStore distribution are
 separate projects with different signing, review, account, and regional
 requirements.
 </details>
