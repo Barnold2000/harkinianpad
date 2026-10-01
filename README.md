@@ -70,6 +70,10 @@ repository's latest release (about 15 minutes) and saves an unsigned IPA in your
 Install it with your sideloading tool, then choose your ROM in the app (see [First launch](#first-launch)).
 Releases publish no app: the app is compiled from the Ship of Harkinian decompilation, so you make your own.
 
+PadMint checks for SDL2, GLEW and libzip before downloading build tools or
+compiling. If one is missing, it shows the installation command. This checks
+those libraries, not every dependency or whether a complete build will succeed.
+
 **By hand:**
 
 You need:

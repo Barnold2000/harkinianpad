@@ -48,6 +48,16 @@ class InstallDocsTest(unittest.TestCase):
         recipe = json.loads((ROOT / "padmint.json").read_text())
         self.assertFalse(recipe["publication"]["public_binaries"])
 
+    def test_host_libraries_are_checked_not_just_pkgconf(self):
+        recipe = json.loads((ROOT / "padmint.json").read_text())
+        libraries = next(tool for tool in recipe["requirements"]["tools"]
+                         if tool["name"] == "pkgconf")
+        self.assertTrue(libraries["player"])
+        self.assertEqual(libraries["label"], "Mac archive libraries")
+        self.assertEqual(libraries["version_args"], ["--exists", "sdl2", "glew", "libzip"])
+        self.assertIn("brew install pkgconf sdl2 glew libzip", libraries["note"])
+        self.assertNotIn("not library readiness", libraries["note"])
+
 
 if __name__ == "__main__":
     unittest.main()

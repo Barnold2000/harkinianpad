@@ -105,11 +105,15 @@
       },
       {
         "name": "pkgconf",
+        "label": "Mac archive libraries",
         "version_args": [
-          "--version"
+          "--exists",
+          "sdl2",
+          "glew",
+          "libzip"
         ],
         "player": true,
-        "note": "Native Mac archive setup: brew install pkgconf sdl2 glew libzip nlohmann-json tinyxml2 libpng libogg libvorbis opus opusfile. This check verifies pkgconf only, not library readiness."
+        "note": "Install the required Mac archive libraries: brew install pkgconf sdl2 glew libzip. The other build dependencies are listed in Get started."
       }
     ]
   },
