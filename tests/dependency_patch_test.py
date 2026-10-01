@@ -6,6 +6,8 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 HELPER = ROOT / 'sources/Shipwright/libultraship/cmake/dependencies/git-patch.cmake'
+PATCHES = HELPER.parent / 'patches'
+SDL_SOURCE = ROOT / 'build-ios-soh/_deps/sdl2-src'
 
 
 @unittest.skipUnless(HELPER.exists(), 'Run after source bootstrap (also exercised by full-app CI)')
@@ -48,3 +50,55 @@ class DependencyPatchTest(unittest.TestCase):
         self.assertIn(b'dependency files were preserved', result.stderr)
         self.assertEqual(self.source.read_text(), 'private changes\n')
         self.assertEqual(extra.read_text(), 'keep me\n')
+
+
+@unittest.skipUnless((SDL_SOURCE / '.git').exists(), 'Run after SDL2 source population')
+class SDLOrientationPatchTest(unittest.TestCase):
+    """Use the pinned SDL preimages, never modify the real dependency cache."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.tree = Path(self.tmp.name)
+        patches = [PATCHES / 'sdl2-uikit-scenes.patch', PATCHES / 'sdl2-uikit-orientation.patch']
+        names = set()
+        for patch in patches:
+            for line in patch.read_text().splitlines():
+                if line.startswith('--- a/'):
+                    names.add(line[6:])
+        for name in names:
+            target = self.tree / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(subprocess.check_output(['git', '-C', str(SDL_SOURCE), 'show',
+                '5d249570393f7a37e037abf22cd6012a4cc56a71:' + name]))
+        subprocess.check_call(['git', 'init', '-q', str(self.tree)])
+
+    def apply(self, name):
+        return subprocess.run(['cmake', f'-Dpatch_file={PATCHES / name}', '-P', str(HELPER)],
+                              cwd=self.tree, capture_output=True)
+
+    def snapshot(self):
+        return {str(p.relative_to(self.tree)): p.read_bytes() for p in self.tree.rglob('*')
+                if p.is_file() and '.git' not in p.relative_to(self.tree).parts}
+
+    def test_existing_scene_checkout_upgrades_and_reruns(self):
+        self.assertEqual(self.apply('sdl2-uikit-scenes.patch').returncode, 0)
+        self.assertEqual(self.apply('sdl2-uikit-orientation.patch').returncode, 0)
+        first = self.snapshot()
+        self.assertEqual(self.apply('sdl2-uikit-orientation.patch').returncode, 0)
+        self.assertEqual(self.snapshot(), first)
+        self.assertIn(b'windowScene.effectiveGeometry.interfaceOrientation',
+                      first['src/video/uikit/SDL_uikitvideo.m'])
+
+    def test_incompatible_orientation_edits_are_preserved(self):
+        self.assertEqual(self.apply('sdl2-uikit-scenes.patch').returncode, 0)
+        source = self.tree / 'src/video/uikit/SDL_uikitvideo.m'
+        source.write_bytes(source.read_bytes().replace(b'CGRect UIKit_ComputeViewFrame',
+                                                       b'CGRect PrivateComputeViewFrame'))
+        extra = self.tree / 'private-note.txt'
+        extra.write_text('preserve this\n')
+        before = self.snapshot()
+        result = self.apply('sdl2-uikit-orientation.patch')
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn(b'dependency files were preserved', result.stderr)
+        self.assertEqual(self.snapshot(), before)
