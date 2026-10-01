@@ -78,17 +78,5 @@ jobs:
             exit 1
           fi
 
-      - name: Retain audited IPA and checksum
-        run: |
-          cd artifacts
-          shasum -a 256 HarkinianPad-*-unsigned.ipa > SHA256SUMS.txt
-
-      - name: Upload audited device build
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: HarkinianPad-iPhone-iPad-${{ github.sha }}
-          path: |
-            artifacts/HarkinianPad-*-unsigned.ipa
-            artifacts/SHA256SUMS.txt
-          if-no-files-found: error
-          retention-days: 30
+      # Compile and package checks are not publication clearance. Full personal
+      # IPAs stay on the runner and must not become public-repository artifacts.

@@ -165,6 +165,10 @@ The default output is
 unsigned so AltStore Classic or another compatible personal-signing tool can
 re-sign it for the installer's device.
 
+This is a personal build, not a public download. CI still compiles and audits
+the package, but does not upload the full app as a workflow artifact. Passing
+the structure or signing checks is not publication clearance.
+
 For a local app that was already signed by Xcode, require valid signing and an
 embedded provisioning profile:
 

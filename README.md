@@ -266,6 +266,8 @@ certificate or provisioning profile; a sideload tool such as AltStore Classic
 must re-sign it for the installer's device.
 
 Releases publish no IPA; this packaging step is for your own local builds.
+CI compiles and checks the package without uploading a downloadable full app.
+An unsigned or ROM-free package is not automatically cleared for publication.
 
 The audit rejects Simulator products, stale signing material, original ROMs,
 ROM-derived `oot*.o2r`/`.otr` files, and prohibited game data. For a local
