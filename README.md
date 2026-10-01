@@ -210,7 +210,7 @@ was supplied locally and is not part of this repository.
 
 | Area | Current result |
 |---|---|
-| Native app | Complete Shipwright app builds for arm64 iOS/iPadOS 14+ |
+| Native app | Current source defaults to arm64 iOS/iPadOS 15+; preserved earlier builds used 14+ |
 | Rendering | Metal rendering works in Simulator and on physical iPad |
 | Game setup | Files-visible ROM import and local `oot.o2r` loading work |
 | Touch | Stick, D-pad, A/B/Z, C buttons, shoulders, Start, and persistent menu access |
@@ -255,9 +255,9 @@ To create the unsigned, re-signable developer-preview package, run:
 scripts/package-ios.sh
 ```
 
-The default preview identity is HarkinianPad `0.1.0`, build `6`, with bundle
-identifier `com.chrissotraidis.harkinianpad`. The package is named
-`HarkinianPad-0.1.0-preview.6-unsigned.ipa`. It contains no maintainer
+The current defaults in `version.json` are HarkinianPad `0.2.0`, build `7`,
+with bundle identifier `com.chrissotraidis.harkinianpad`. The package is named
+`HarkinianPad-0.2.0-preview.7-unsigned.ipa`. It contains no maintainer
 certificate or provisioning profile; a sideload tool such as AltStore Classic
 must re-sign it for the installer's device.
 
@@ -266,8 +266,8 @@ Releases publish no IPA; this packaging step is for your own local builds.
 The audit rejects Simulator products, stale signing material, original ROMs,
 ROM-derived `oot*.o2r`/`.otr` files, and prohibited game data. For a local
 maintainer-signed package, use `REQUIRE_SIGNED=1 scripts/package-ios.sh`.
-The preview is a GitHub-hosted unsigned, self-signable package, not an App
-Store or TestFlight artifact. It does not currently carry a standalone Apple
+Your local IPA is an unsigned, self-signable package, not a public download,
+App Store or TestFlight artifact. It does not currently carry a standalone Apple
 privacy manifest; that remains an official-store distribution gate.
 
 ## Frequently asked questions

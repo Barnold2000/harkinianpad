@@ -7,10 +7,11 @@ components retain upstream ancestry in dedicated maintained branches. The
 
 ## Requirements
 
-- macOS with Xcode and its command-line tools; the shipping iOS 14 floor
-  requires a compatible Xcode (the preserved build used 26.6). Xcode 27 rejects
-  iOS 14; `DEPLOYMENT_TARGET=15.0` is a separate compile experiment, not a
-  replacement for that shipping-platform qualification.
+- macOS with Xcode and its command-line tools. Current source defaults to
+  `DEPLOYMENT_TARGET=15.0` for Xcode 27. Preserved earlier builds used an iOS 14
+  floor with Xcode 26.6, and CI explicitly selects 14.0 with its compatible
+  toolchain. That historical qualification does not establish iOS 14 support
+  for a new default build or new physical-device acceptance.
 - [Homebrew](https://brew.sh)
 - a legally acquired supported Ocarina of Time ROM for first-run extraction
 - for physical-device installation: an Apple ID configured in Xcode, a unique
@@ -102,15 +103,15 @@ Shipwright source version. The defaults are:
 
 | Field | Value |
 |---|---|
-| App version | `0.1.0` |
-| Build number | `6` |
+| App version | `0.2.0` |
+| Build number | `7` |
 | Bundle identifier | `com.chrissotraidis.harkinianpad` |
 
 For a later preview, increment the build number without changing the app
 version:
 
 ```sh
-HARKINIANPAD_BUILD_NUMBER=7 scripts/build-ios.sh --device
+HARKINIANPAD_BUILD_NUMBER=8 scripts/build-ios.sh --device
 ```
 
 Use `HARKINIANPAD_VERSION` only for a deliberate app-version change. It must
@@ -160,7 +161,7 @@ scripts/package-ios.sh
 ```
 
 The default output is
-`artifacts/HarkinianPad-0.1.0-preview.6-unsigned.ipa`. It is deliberately
+`artifacts/HarkinianPad-0.2.0-preview.7-unsigned.ipa`. It is deliberately
 unsigned so AltStore Classic or another compatible personal-signing tool can
 re-sign it for the installer's device.
 
@@ -188,10 +189,9 @@ AltStore PAL, and SideStore are distinct distribution paths with their own
 account, region, review, and provisioning constraints; a successful local
 build does not prove any of them.
 
-For the planned public developer preview, follow
-[`INSTALL_IPA.md`](INSTALL_IPA.md). Never publish a locally signed IPA: it
-contains the maintainer's provisioning material and is not the re-signable
-release artifact.
+For your locally generated IPA, follow [`INSTALL_IPA.md`](INSTALL_IPA.md).
+Current releases provide a PadMint recipe, not a public IPA. Keep the completed
+personal build private; a locally signed IPA also contains provisioning material.
 
 ## Touch and controller playtest
 

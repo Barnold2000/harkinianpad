@@ -2,6 +2,7 @@
 import contextlib
 import importlib.util
 import io
+import hashlib
 from pathlib import Path
 import plistlib
 import sys
@@ -41,6 +42,13 @@ class BuildProvenanceTest(unittest.TestCase):
         self.run_report(check=True)
         self.assertTrue(self.app.with_suffix('.build.json').is_file())
         self.assertEqual(before, {p.name: p.read_bytes() for p in self.app.iterdir()})
+
+    def test_streaming_hash_matches_sha256(self):
+        path = self.app / 'HarkinianPad'
+        for data in (b'', b'fixture executable', b'a' * (1024 * 1024 + 17)):
+            with self.subTest(size=len(data)):
+                path.write_bytes(data)
+                self.assertEqual(provenance.sha(path), hashlib.sha256(data).hexdigest())
 
     def test_changed_executable_rejected(self):
         self.run_report()
