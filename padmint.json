@@ -68,21 +68,14 @@
         ],
         "min_version": "3.26",
         "player": true,
-        "note": "Install CMake 3.26 or newer: brew install cmake. The native Mac archive build also needs the host libraries listed in the pkgconf setup note."
-      },
-      {
-        "name": "ninja",
-        "version_args": [
-          "--version"
-        ],
-        "player": true,
-        "note": "Install Ninja: brew install ninja"
+        "note": "Install CMake 3.26 or newer: brew install cmake"
       },
       {
         "name": "python3",
         "version_args": [
           "--version"
-        ]
+        ],
+        "min_version": "3.9"
       },
       {
         "name": "xcodebuild",
@@ -102,18 +95,6 @@
         ],
         "player": true,
         "note": "Install full Xcode and its iOS platform (Command Line Tools alone are not enough). Complete first-launch setup, then select Xcode in Xcode > Settings > Locations > Command Line Tools."
-      },
-      {
-        "name": "pkgconf",
-        "label": "Mac archive libraries",
-        "version_args": [
-          "--exists",
-          "sdl2",
-          "glew",
-          "libzip"
-        ],
-        "player": true,
-        "note": "Install the required Mac archive libraries: brew install pkgconf sdl2 glew libzip. The other build dependencies are listed in Get started."
       }
     ]
   },

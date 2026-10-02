@@ -45,16 +45,14 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - name: Install host archive-build dependencies
+      - name: Install build tools and native test dependencies
         run: >-
-          brew install cmake ninja pkgconf sdl2 glew nlohmann-json libpng
-          libzip tinyxml2 libogg libvorbis opus opusfile sdl2_net
+          brew install cmake pkgconf libzip
 
       - name: Cache host and iOS dependencies
         uses: actions/cache@v6
         with:
           path: |
-            build-host-soh/_deps
             build-ios-soh/_deps
           key: harkinianpad-ios-${{ runner.os }}-${{ hashFiles('sources.lock.json', 'patches/**', 'scripts/**') }}
 

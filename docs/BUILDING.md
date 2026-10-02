@@ -12,7 +12,7 @@ components retain upstream ancestry in dedicated maintained branches. The
   floor with Xcode 26.6, and CI explicitly selects 14.0 with its compatible
   toolchain. That historical qualification does not establish iOS 14 support
   for a new default build or new physical-device acceptance.
-- [Homebrew](https://brew.sh)
+- CMake 3.26 or newer and Python 3.9 or newer; [Homebrew](https://brew.sh) can install CMake
 - a legally acquired supported Ocarina of Time ROM for first-run extraction
 - for physical-device installation: an Apple ID configured in Xcode, a unique
   bundle identifier, and a registered device
@@ -26,8 +26,7 @@ only Python; the iOS app still requires Xcode. See
 [portable resource generation](PORTABLE-RESOURCES.md) for that step and its limits.
 
 ```sh
-brew install cmake ninja pkgconf sdl2 glew nlohmann-json libpng libzip \
-  tinyxml2 libogg libvorbis opus opusfile sdl2_net
+brew install cmake
 ```
 
 ## Clean-machine build
@@ -77,6 +76,11 @@ device.
 
 ## Controller regression and practical test suite
 
+Native mod-import tests additionally require `brew install pkgconf libzip`.
+These test dependencies are separate from the player app build. After an iOS
+build, `scripts/test-mod-packs.sh` builds its small native StormLib dependency
+and runs both ZIP and OTR fixtures; a missing fixture dependency is an error.
+
 The controller owner is libultraship's SDL2 physical-device manager. Run the
 focused slot/lifecycle regression after reproducing the pinned sources:
 
@@ -88,9 +92,12 @@ It deterministically covers missed removal with held input, neutral input after
 stale ownership is released, a sole return to player 1, an additional player 2,
 two-controller preservation, foreground reconciliation, and deliberate device
 disable/restore. The practical libultraship suite must use Debug because two
-event-metadata tests intentionally depend on `_DEBUG`:
+event-metadata tests intentionally depend on `_DEBUG`. This optional desktop
+suite needs the desktop libraries that the player iOS build no longer uses:
 
 ```sh
+brew install pkgconf sdl2 glew nlohmann-json libpng libzip \
+  tinyxml2 libogg libvorbis opus opusfile sdl2_net
 cmake -S sources/Shipwright -B build-host-tests \
   -DLUS_BUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Debug
 cmake --build build-host-tests --target lus_tests --parallel

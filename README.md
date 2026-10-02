@@ -57,7 +57,7 @@ mapping, rumble, motion, and two-controller acceptance remains open.
 
 ## Get started
 
-**The easy way:** on a Mac with Xcode, install the build libraries once:
+**The easy way:** on a Mac with Xcode, the current public release requires these build libraries:
 
 ```sh
 brew install cmake ninja pkgconf sdl2 glew nlohmann-json libpng libzip \
@@ -71,9 +71,8 @@ Install it with your sideloading tool, copy your ROM into the HarkinianPad folde
 then return to the app and tap **Rescan** (see [First launch](#first-launch)).
 Releases publish no app: the app is compiled from the Ship of Harkinian decompilation, so you make your own.
 
-PadMint checks for SDL2, GLEW and libzip before downloading build tools or
-compiling. If one is missing, it shows the installation command. This checks
-those libraries, not every dependency or whether a complete build will succeed.
+The released recipe checks the build tools but does not check these desktop
+libraries before compiling. Install the libraries above before starting PadMint.
 
 **By hand:**
 
@@ -84,12 +83,15 @@ You need:
 - an Apple ID configured in Xcode for physical-device signing; and
 - your own legally acquired, supported Ocarina of Time ROM.
 
-Install the build dependencies:
+For the source build below, install CMake and use Python 3.9 or newer:
 
 ```sh
-brew install cmake ninja pkgconf sdl2 glew nlohmann-json libpng libzip \
-  tinyxml2 libogg libvorbis opus opusfile sdl2_net
+brew install cmake
 ```
+
+Current source generates port resources with Python and fetches the iOS libraries
+through CMake. Desktop SDL2, GLEW, Ninja and pkg-config are no longer player-build
+prerequisites. The public release above still uses its older recipe.
 
 Clone and build:
 
