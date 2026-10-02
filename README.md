@@ -67,7 +67,8 @@ brew install cmake ninja pkgconf sdl2 glew nlohmann-json libpng libzip \
 then download [PadMint](https://github.com/chrissotraidis/padmint/releases/latest), unzip it,
 double-click `PadMint.command` and choose HarkinianPad. PadMint builds the app from this
 repository's latest release (about 15 minutes) and saves an unsigned IPA in your Downloads folder.
-Install it with your sideloading tool, then choose your ROM in the app (see [First launch](#first-launch)).
+Install it with your sideloading tool, copy your ROM into the HarkinianPad folder in Files,
+then return to the app and tap **Rescan** (see [First launch](#first-launch)).
 Releases publish no app: the app is compiled from the Ship of Harkinian decompilation, so you make your own.
 
 PadMint checks for SDL2, GLEW and libzip before downloading build tools or

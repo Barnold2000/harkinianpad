@@ -21,8 +21,9 @@ ROMs and ROM-derived archives belong only in ignored local storage such as
 `ref/` or the app's Files-visible Documents folder. Never add them to Git or
 an app/IPA bundle.
 
-Install the host tools and libraries used to generate Shipwright's ROM-free
-port archive:
+Install the current build prerequisites below. Port-resource generation now uses
+only Python; the iOS app still requires Xcode. See
+[portable resource generation](PORTABLE-RESOURCES.md) for that step and its limits.
 
 ```sh
 brew install cmake ninja pkgconf sdl2 glew nlohmann-json libpng libzip \
