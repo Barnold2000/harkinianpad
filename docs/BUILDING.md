@@ -7,11 +7,12 @@ components retain upstream ancestry in dedicated maintained branches. The
 
 ## Requirements
 
-- macOS with Xcode and its command-line tools; the shipping iOS 14 floor
-  requires a compatible Xcode (the preserved build used 26.6). Xcode 27 rejects
-  iOS 14; `DEPLOYMENT_TARGET=15.0` is a separate compile experiment, not a
-  replacement for that shipping-platform qualification.
-- [Homebrew](https://brew.sh)
+- macOS with Xcode and its command-line tools. Current source defaults to
+  `DEPLOYMENT_TARGET=15.0` for Xcode 27. Preserved earlier builds used an iOS 14
+  floor with Xcode 26.6, and CI explicitly selects 14.0 with its compatible
+  toolchain. That historical qualification does not establish iOS 14 support
+  for a new default build or new physical-device acceptance.
+- CMake 3.26 or newer and Python 3.9 or newer; [Homebrew](https://brew.sh) can install CMake
 - a legally acquired supported Ocarina of Time ROM for first-run extraction
 - for physical-device installation: an Apple ID configured in Xcode, a unique
   bundle identifier, and a registered device
@@ -20,12 +21,12 @@ ROMs and ROM-derived archives belong only in ignored local storage such as
 `ref/` or the app's Files-visible Documents folder. Never add them to Git or
 an app/IPA bundle.
 
-Install the host tools and libraries used to generate Shipwright's ROM-free
-port archive:
+Install the current build prerequisites below. Port-resource generation now uses
+only Python; the iOS app still requires Xcode. See
+[portable resource generation](PORTABLE-RESOURCES.md) for that step and its limits.
 
 ```sh
-brew install cmake ninja pkgconf sdl2 glew nlohmann-json libpng libzip \
-  tinyxml2 libogg libvorbis opus opusfile sdl2_net
+brew install cmake
 ```
 
 ## Clean-machine build
@@ -75,6 +76,11 @@ device.
 
 ## Controller regression and practical test suite
 
+Native mod-import tests additionally require `brew install pkgconf libzip`.
+These test dependencies are separate from the player app build. After an iOS
+build, `scripts/test-mod-packs.sh` builds its small native StormLib dependency
+and runs both ZIP and OTR fixtures; a missing fixture dependency is an error.
+
 The controller owner is libultraship's SDL2 physical-device manager. Run the
 focused slot/lifecycle regression after reproducing the pinned sources:
 
@@ -86,9 +92,12 @@ It deterministically covers missed removal with held input, neutral input after
 stale ownership is released, a sole return to player 1, an additional player 2,
 two-controller preservation, foreground reconciliation, and deliberate device
 disable/restore. The practical libultraship suite must use Debug because two
-event-metadata tests intentionally depend on `_DEBUG`:
+event-metadata tests intentionally depend on `_DEBUG`. This optional desktop
+suite needs the desktop libraries that the player iOS build no longer uses:
 
 ```sh
+brew install pkgconf sdl2 glew nlohmann-json libpng libzip \
+  tinyxml2 libogg libvorbis opus opusfile sdl2_net
 cmake -S sources/Shipwright -B build-host-tests \
   -DLUS_BUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Debug
 cmake --build build-host-tests --target lus_tests --parallel
@@ -102,15 +111,15 @@ Shipwright source version. The defaults are:
 
 | Field | Value |
 |---|---|
-| App version | `0.1.0` |
-| Build number | `6` |
+| App version | `0.2.0` |
+| Build number | `7` |
 | Bundle identifier | `com.chrissotraidis.harkinianpad` |
 
 For a later preview, increment the build number without changing the app
 version:
 
 ```sh
-HARKINIANPAD_BUILD_NUMBER=7 scripts/build-ios.sh --device
+HARKINIANPAD_BUILD_NUMBER=8 scripts/build-ios.sh --device
 ```
 
 Use `HARKINIANPAD_VERSION` only for a deliberate app-version change. It must
@@ -160,9 +169,13 @@ scripts/package-ios.sh
 ```
 
 The default output is
-`artifacts/HarkinianPad-0.1.0-preview.6-unsigned.ipa`. It is deliberately
+`artifacts/HarkinianPad-0.2.0-preview.7-unsigned.ipa`. It is deliberately
 unsigned so AltStore Classic or another compatible personal-signing tool can
 re-sign it for the installer's device.
+
+This is a personal build, not a public download. CI still compiles and audits
+the package, but does not upload the full app as a workflow artifact. Passing
+the structure or signing checks is not publication clearance.
 
 For a local app that was already signed by Xcode, require valid signing and an
 embedded provisioning profile:
@@ -188,10 +201,9 @@ AltStore PAL, and SideStore are distinct distribution paths with their own
 account, region, review, and provisioning constraints; a successful local
 build does not prove any of them.
 
-For the planned public developer preview, follow
-[`INSTALL_IPA.md`](INSTALL_IPA.md). Never publish a locally signed IPA: it
-contains the maintainer's provisioning material and is not the re-signable
-release artifact.
+For your locally generated IPA, follow [`INSTALL_IPA.md`](INSTALL_IPA.md).
+Current releases provide a PadMint recipe, not a public IPA. Keep the completed
+personal build private; a locally signed IPA also contains provisioning material.
 
 ## Touch and controller playtest
 

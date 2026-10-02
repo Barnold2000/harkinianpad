@@ -57,7 +57,7 @@ mapping, rumble, motion, and two-controller acceptance remains open.
 
 ## Get started
 
-**The easy way:** on a Mac with Xcode, install the build libraries once:
+**The easy way:** on a Mac with Xcode, the current public release requires these build libraries:
 
 ```sh
 brew install cmake ninja pkgconf sdl2 glew nlohmann-json libpng libzip \
@@ -67,8 +67,12 @@ brew install cmake ninja pkgconf sdl2 glew nlohmann-json libpng libzip \
 then download [PadMint](https://github.com/chrissotraidis/padmint/releases/latest), unzip it,
 double-click `PadMint.command` and choose HarkinianPad. PadMint builds the app from this
 repository's latest release (about 15 minutes) and saves an unsigned IPA in your Downloads folder.
-Install it with your sideloading tool, then choose your ROM in the app (see [First launch](#first-launch)).
+Install it with your sideloading tool, copy your ROM into the HarkinianPad folder in Files,
+then return to the app and tap **Rescan** (see [First launch](#first-launch)).
 Releases publish no app: the app is compiled from the Ship of Harkinian decompilation, so you make your own.
+
+The released recipe checks the build tools but does not check these desktop
+libraries before compiling. Install the libraries above before starting PadMint.
 
 **By hand:**
 
@@ -79,12 +83,15 @@ You need:
 - an Apple ID configured in Xcode for physical-device signing; and
 - your own legally acquired, supported Ocarina of Time ROM.
 
-Install the build dependencies:
+For the source build below, install CMake and use Python 3.9 or newer:
 
 ```sh
-brew install cmake ninja pkgconf sdl2 glew nlohmann-json libpng libzip \
-  tinyxml2 libogg libvorbis opus opusfile sdl2_net
+brew install cmake
 ```
+
+Current source generates port resources with Python and fetches the iOS libraries
+through CMake. Desktop SDL2, GLEW, Ninja and pkg-config are no longer player-build
+prerequisites. The public release above still uses its older recipe.
 
 Clone and build:
 
@@ -210,7 +217,7 @@ was supplied locally and is not part of this repository.
 
 | Area | Current result |
 |---|---|
-| Native app | Complete Shipwright app builds for arm64 iOS/iPadOS 14+ |
+| Native app | Current source defaults to arm64 iOS/iPadOS 15+; preserved earlier builds used 14+ |
 | Rendering | Metal rendering works in Simulator and on physical iPad |
 | Game setup | Files-visible ROM import and local `oot.o2r` loading work |
 | Touch | Stick, D-pad, A/B/Z, C buttons, shoulders, Start, and persistent menu access |
@@ -255,19 +262,21 @@ To create the unsigned, re-signable developer-preview package, run:
 scripts/package-ios.sh
 ```
 
-The default preview identity is HarkinianPad `0.1.0`, build `6`, with bundle
-identifier `com.chrissotraidis.harkinianpad`. The package is named
-`HarkinianPad-0.1.0-preview.6-unsigned.ipa`. It contains no maintainer
+The current defaults in `version.json` are HarkinianPad `0.2.0`, build `7`,
+with bundle identifier `com.chrissotraidis.harkinianpad`. The package is named
+`HarkinianPad-0.2.0-preview.7-unsigned.ipa`. It contains no maintainer
 certificate or provisioning profile; a sideload tool such as AltStore Classic
 must re-sign it for the installer's device.
 
 Releases publish no IPA; this packaging step is for your own local builds.
+CI compiles and checks the package without uploading a downloadable full app.
+An unsigned or ROM-free package is not automatically cleared for publication.
 
 The audit rejects Simulator products, stale signing material, original ROMs,
 ROM-derived `oot*.o2r`/`.otr` files, and prohibited game data. For a local
 maintainer-signed package, use `REQUIRE_SIGNED=1 scripts/package-ios.sh`.
-The preview is a GitHub-hosted unsigned, self-signable package, not an App
-Store or TestFlight artifact. It does not currently carry a standalone Apple
+Your local IPA is an unsigned, self-signable package, not a public download,
+App Store or TestFlight artifact. It does not currently carry a standalone Apple
 privacy manifest; that remains an official-store distribution gate.
 
 ## Frequently asked questions

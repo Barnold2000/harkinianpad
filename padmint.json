@@ -14,7 +14,7 @@
         "v64"
       ],
       "when": "in-app",
-      "description": "Your own supported Ocarina of Time ROM, chosen in the app. The build does not read it."
+      "description": "Your own supported Ocarina of Time ROM. After installation, copy it into the HarkinianPad folder in Files, then return to the app and choose Rescan. The build does not read it."
     }
   ],
   "targets": {
@@ -65,26 +65,36 @@
         "name": "cmake",
         "version_args": [
           "--version"
-        ]
-      },
-      {
-        "name": "ninja",
-        "version_args": [
-          "--version"
-        ]
+        ],
+        "min_version": "3.26",
+        "player": true,
+        "note": "Install CMake 3.26 or newer: brew install cmake"
       },
       {
         "name": "python3",
         "version_args": [
           "--version"
-        ]
+        ],
+        "min_version": "3.9"
       },
       {
         "name": "xcodebuild",
         "version_args": [
           "-version"
         ],
-        "note": "Install Xcode and its iOS platform"
+        "player": true,
+        "note": "Install full Xcode and its iOS platform (Command Line Tools alone are not enough). Complete first-launch setup, then select Xcode in Xcode > Settings > Locations > Command Line Tools."
+      },
+      {
+        "name": "xcrun",
+        "label": "Xcode iOS SDK",
+        "version_args": [
+          "--sdk",
+          "iphoneos",
+          "--show-sdk-path"
+        ],
+        "player": true,
+        "note": "Install full Xcode and its iOS platform (Command Line Tools alone are not enough). Complete first-launch setup, then select Xcode in Xcode > Settings > Locations > Command Line Tools."
       }
     ]
   },

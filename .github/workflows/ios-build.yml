@@ -45,16 +45,14 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - name: Install host archive-build dependencies
+      - name: Install build tools and native test dependencies
         run: >-
-          brew install cmake ninja pkgconf sdl2 glew nlohmann-json libpng
-          libzip tinyxml2 libogg libvorbis opus opusfile sdl2_net
+          brew install cmake pkgconf libzip
 
       - name: Cache host and iOS dependencies
         uses: actions/cache@v6
         with:
           path: |
-            build-host-soh/_deps
             build-ios-soh/_deps
           key: harkinianpad-ios-${{ runner.os }}-${{ hashFiles('sources.lock.json', 'patches/**', 'scripts/**') }}
 
@@ -78,17 +76,5 @@ jobs:
             exit 1
           fi
 
-      - name: Retain audited IPA and checksum
-        run: |
-          cd artifacts
-          shasum -a 256 HarkinianPad-*-unsigned.ipa > SHA256SUMS.txt
-
-      - name: Upload audited device build
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: HarkinianPad-iPhone-iPad-${{ github.sha }}
-          path: |
-            artifacts/HarkinianPad-*-unsigned.ipa
-            artifacts/SHA256SUMS.txt
-          if-no-files-found: error
-          retention-days: 30
+      # Compile and package checks are not publication clearance. Full personal
+      # IPAs stay on the runner and must not become public-repository artifacts.
