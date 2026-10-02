@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate the pinned clean HarkinianPad port archive using only Python.
 
-Developer command; the normal build still uses its native generator.
+Used by the normal resource step; native app compilation remains separate.
 """
 import argparse
 import hashlib
