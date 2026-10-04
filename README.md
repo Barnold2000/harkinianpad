@@ -12,6 +12,7 @@
   <img alt="Metal renderer" src="https://img.shields.io/badge/renderer-Metal-5E5CE6">
   <img alt="Physical iPad tested" src="https://img.shields.io/badge/physical%20iPad-tested-30D158">
   <img alt="ROM not included" src="https://img.shields.io/badge/game%20data-not%20included-FF453A">
+  <a href="https://github.com/chrissotraidis/padmint"><img alt="Build HarkinianPad with PadMint" src="https://img.shields.io/badge/PadMint-build%20your%20own-3EB489"></a>
   <a href="https://discord.gg/xwHfUD2bxW"><img alt="Join the Discord community" src="https://img.shields.io/badge/Discord-Join%20the%20community-5865F2?logo=discord&amp;logoColor=white"></a>
 </p>
 
@@ -31,6 +32,14 @@ remaining source-delivery and reproducibility boundaries. It does **not** contai
 ROM-derived archive. See the scoped
 [`rights and licensing boundary`](RIGHTS_AND_LICENSES.md); it does not
 relicense Shipwright, third-party projects, or game material.
+
+> [!NOTE]
+> **AI disclosure:** HarkinianPad uses substantial AI assistance for code,
+> tests, documentation, debugging and maintenance. Some support replies and
+> maintenance tasks are automated. There is no audited percentage of
+> AI-generated code. Build, test and device records describe what was checked.
+> This disclosure concerns HarkinianPad's workflow, not the authorship of its
+> upstream projects.
 
 ## Install status
 
@@ -376,6 +385,17 @@ for reproducible gameplay or platform defects. Read
 [`CONTRIBUTING.md`](CONTRIBUTING.md) before proposing a change and
 [`SECURITY.md`](SECURITY.md) before reporting a sensitive vulnerability.
 Never attach or request game data.
+
+## Community and support
+
+[Join the Discord](https://discord.gg/xwHfUD2bxW) for help and news. It is one
+community for HarkinianPad and its sibling projects, such as KartPad, BlueWake
+and MeleePad: ask about setup, building with PadMint, and installing, share how
+it runs on your device, and hear about new releases first.
+
+Found a bug? [Open an
+issue](https://github.com/chrissotraidis/harkinianpad/issues) with your device,
+its OS version, and the steps that led to it.
 
 ## Legal and acknowledgements
 
