@@ -76,5 +76,11 @@ jobs:
             exit 1
           fi
 
+      - name: Upload unsigned IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: HarkinianPad-iOS-IPA
+          path: artifacts/*.ipa
+          if-no-files-found: error
       # Compile and package checks are not publication clearance. Full personal
       # IPAs stay on the runner and must not become public-repository artifacts.
