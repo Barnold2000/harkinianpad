@@ -1,0 +1,44 @@
+name: HarkinianPad iOS build with IPA
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  DEPLOYMENT_TARGET: "14.0"
+
+jobs:
+  ios-build:
+    name: Build and upload unsigned IPA
+    runs-on: macos-15
+    timeout-minutes: 120
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Install build tools
+        run: brew install cmake pkgconf libzip
+
+      - name: Cache host and iOS dependencies
+        uses: actions/cache@v6
+        with:
+          path: |
+            build-ios-soh/_deps
+          key: harkinianpad-ios-${{ runner.os }}-${{ hashFiles('sources.lock.json', 'patches/**', 'scripts/**') }}
+
+      - name: Build unsigned iPhoneOS app
+        run: scripts/build-ios.sh --device
+
+      - name: Package unsigned IPA
+        run: scripts/package-ios.sh
+
+      - name: Upload unsigned IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: HarkinianPad-iOS-IPA
+          path: artifacts/*.ipa
+          if-no-files-found: error
+          retention-days: 7
